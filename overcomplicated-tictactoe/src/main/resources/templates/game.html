@@ -12,6 +12,25 @@
     <link href="/style.css" rel="stylesheet" />
 </head>
 <body>
+    <div class="modal" id="gameover" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Game over</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-text"></p>
+                </div>
+                <div class="modal-footer">
+                    <a href="/game"><button id="new-game-button" type="button" class="btn btn-primary">New game</button></a>
+                    <a href="/"><button type="button" class="btn btn-secondary">Close</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <header class="media">
             <div class="media-body">
@@ -48,35 +67,35 @@
                 <div class="container-fluid game-container">
                     <div class="row">
                         <div class="col-xs-4">
-                            <a href="/game-move?move=0" class="btn btn-default square">&nbsp;</a>
+                            <div id="square0" class="btn btn-default square">&nbsp;</div>
                         </div>
                         <div class="col-xs-4">
-                            <a href="/game-move?move=1" class="btn btn-default square"><i class="fa fa-circle-o" aria-hidden="true"></i></a>
+                            <div id="square1" class="btn btn-default square"></div>
                         </div>
                         <div class="col-xs-4">
-                            <a href="/game-move?move=2" class="btn btn-default square"><i class="fa fa-times" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <a href="/game-move?move=3" class="btn btn-default square">&nbsp;</a>
-                        </div>
-                        <div class="col-xs-4">
-                            <a href="/game-move?move=4" class="btn btn-default square">&nbsp;</a>
-                        </div>
-                        <div class="col-xs-4">
-                            <a href="/game-move?move=5" class="btn btn-default square">&nbsp;</a>
+                            <div id="square2" class="btn btn-default square"></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-4">
-                            <a href="/game-move?move=6" class="btn btn-default square">&nbsp;</a>
+                            <div id="square3" class="btn btn-default square">&nbsp;</div>
                         </div>
                         <div class="col-xs-4">
-                            <a href="/game-move?move=7" class="btn btn-default square">&nbsp;</a>
+                            <div id="square4" class="btn btn-default square">&nbsp;</div>
                         </div>
                         <div class="col-xs-4">
-                            <a href="/game-move?move=8" class="btn btn-default square">&nbsp;</a>
+                            <div id="square5" class="btn btn-default square">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div id="square6" class="btn btn-default square">&nbsp;</div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div id="square7" class="btn btn-default square">&nbsp;</div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div id="square8" class="btn btn-default square">&nbsp;</div>
                         </div>
                     </div>
                 </div>
@@ -100,8 +119,9 @@
             </div>
         </div>
     </footer>
-
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script defer="defer" type="text/javascript"  th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.js}"></script>
+    <script defer="defer" type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script defer="defer" type="text/javascript" th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.js}"></script>
+    <script defer="defer" type="text/javascript" th:src="@{/js/scripts.js}"></script>
 </body>
 </html>
