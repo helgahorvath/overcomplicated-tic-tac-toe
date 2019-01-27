@@ -2,35 +2,34 @@ package com.codecool.enterprise.overcomplicated.controller;
 
 import com.codecool.enterprise.overcomplicated.model.Player;
 import com.codecool.enterprise.overcomplicated.model.TictactoeGame;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.json.*;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@SessionAttributes({"player", "game"})
+@SessionAttributes({"player", "game" })
 public class GameController {
 
 
     private TictactoeGame game;
     private int step;
 
+    private String avatarUri;
+
     @ModelAttribute("player")
     public Player getPlayer() {
         return new Player();
     }
 
+    public String getAvatarUri() {
+        return avatarUri;
+    }
 
     @ModelAttribute("funfact")
     private String getFunfact() {
@@ -46,18 +45,20 @@ public class GameController {
         game.fillFields();
         step = 0;
         return this.game;
-
     }
 
 
-
-    @ModelAttribute("avatar_uri")
-    public String getAvatarUri() {
-        return "https://robohash.org/codecool";
+    @PostConstruct
+    private void setAvatarUri() {
+        String url = "http://localhost:63201/";
+        RestTemplate template = new RestTemplate();
+        String result = template.getForObject(url, String.class);
+        this.avatarUri = result;
     }
 
     @GetMapping(value = "/")
-    public String welcomeView(@ModelAttribute Player player, @ModelAttribute("funfact") String funfact) {
+    public String welcomeView(@ModelAttribute Player player, @ModelAttribute("funfact") String funfact){
+        setAvatarUri();
         return "welcome";
     }
 
@@ -67,10 +68,11 @@ public class GameController {
     }
 
     @RequestMapping(value = "/game", method = {RequestMethod.GET, RequestMethod.POST})
-    public String gameView(@ModelAttribute("player") Player player, Model model ) {
+    public String gameView(@ModelAttribute("player") Player player, Model model) {
         getGame();
         model.addAttribute("funfact", "&quot;Chuck Norris knows the last digit of pi.&quot;");
         model.addAttribute("comic_uri", "https://imgs.xkcd.com/comics/bad_code.png");
+        model.addAttribute("avatar_uri", getAvatarUri());
         return "game";
     }
 
