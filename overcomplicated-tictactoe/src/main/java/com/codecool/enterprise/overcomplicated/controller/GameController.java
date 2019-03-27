@@ -2,25 +2,43 @@ package com.codecool.enterprise.overcomplicated.controller;
 
 import com.codecool.enterprise.overcomplicated.model.Player;
 import com.codecool.enterprise.overcomplicated.model.TictactoeGame;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.client.RestTemplate;
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Controller
-@SessionAttributes({"player", "game"})
+@SessionAttributes({"player", "game" })
 public class GameController {
 
 
     private TictactoeGame game;
     private int step;
+    private String avatarUri;
 
     @ModelAttribute("player")
     public Player getPlayer() {
         return new Player();
     }
+
+    public String getAvatarUri() {
+        return avatarUri;
+    }
+
+    @ModelAttribute("funfact")
+    private String getFunfact() {
+        String url = "http://localhost:63200/";
+        RestTemplate template = new RestTemplate();
+        JSONObject result = template.getForObject(url, JSONObject.class);
+        return result.get("value").toString();
+    }
+
+
 
     @ModelAttribute("game")
     public TictactoeGame getGame() {
@@ -28,16 +46,29 @@ public class GameController {
         game.fillFields();
         step = 0;
         return this.game;
-
     }
 
-    @ModelAttribute("avatar_uri")
-    public String getAvatarUri() {
-        return "https://robohash.org/codecool";
+
+    private String getComic() {
+        String url = "http://localhost:63202";
+        RestTemplate template = new RestTemplate();
+        JSONObject result = template.getForObject(url, JSONObject.class);
+        return (String) result.get("img");
+    }
+
+    @PostConstruct
+    private void setAvatarUri() {
+        String url = "http://localhost:63201/";
+        RestTemplate template = new RestTemplate();
+        String result = template.getForObject(url, String.class);
+        this.avatarUri = result;
     }
 
     @GetMapping(value = "/")
-    public String welcomeView(@ModelAttribute Player player) {
+    public String welcomeView(@ModelAttribute Player player, @ModelAttribute("funfact") String funfact, Model model){
+        setAvatarUri();
+        model.addAttribute("avatar_uri", getAvatarUri());
+        model.addAttribute("player", player);
         return "welcome";
     }
 
@@ -46,11 +77,12 @@ public class GameController {
         return "redirect:/game";
     }
 
-    @GetMapping(value = "/game")
+    @RequestMapping(value = "/game", method = {RequestMethod.GET, RequestMethod.POST})
     public String gameView(@ModelAttribute("player") Player player, Model model) {
         getGame();
-        model.addAttribute("funfact", "&quot;Chuck Norris knows the last digit of pi.&quot;");
-        model.addAttribute("comic_uri", "https://imgs.xkcd.com/comics/bad_code.png");
+        model.addAttribute("funfact", getFunfact());
+        model.addAttribute("comic_uri", getComic());
+        model.addAttribute("avatar_uri", getAvatarUri());
         return "game";
     }
 
