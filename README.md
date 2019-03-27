@@ -13,7 +13,7 @@ This service generates a fun fact for showing it next to the game board to make 
 
 ### comics-service
 
-A service for showing a comic. One possible source is to return a random piece from 
+A service for showing a comic.
 
 ### avatar-service
 
