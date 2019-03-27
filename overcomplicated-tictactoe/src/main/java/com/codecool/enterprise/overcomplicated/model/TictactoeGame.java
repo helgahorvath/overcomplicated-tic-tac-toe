@@ -16,6 +16,8 @@ public class TictactoeGame {
     private static final List<Integer> CONDITION4 = new ArrayList<>(Arrays.asList(1, 4, 7));
     private static final List<Integer> CONDITION5 = new ArrayList<>(Arrays.asList(2, 5, 8));
     private static final List<Integer> CONDITION6 = new ArrayList<>(Arrays.asList(2, 4, 6));
+    private static final List<Integer> CONDITION7 = new ArrayList<>(Arrays.asList(3, 4, 5));
+    private static final List<Integer> CONDITION8 = new ArrayList<>(Arrays.asList(6, 7, 8));
 
     public void fillFields() {
         for (int i = 0; i < 9; i++) {
@@ -32,7 +34,8 @@ public class TictactoeGame {
 
         return playersFields.containsAll(CONDITION1) || playersFields.containsAll(CONDITION2) ||
                 playersFields.containsAll(CONDITION3) || playersFields.containsAll(CONDITION4) ||
-                playersFields.containsAll(CONDITION5) || playersFields.containsAll(CONDITION6);
+                playersFields.containsAll(CONDITION5) || playersFields.containsAll(CONDITION6) ||
+                playersFields.containsAll(CONDITION7) || playersFields.containsAll(CONDITION8);
     }
 
     private List<Integer> extractFieldsBySign(String value) {
